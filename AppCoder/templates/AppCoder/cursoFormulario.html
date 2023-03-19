@@ -1,0 +1,25 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+
+{% if miFormulario.errors %}
+
+<p style= "color: red;">La carga de los datos es incorrecta, corregir por favor<p>
+
+{% endif %}
+
+<form action="" method="POST">{% csrf_token %}
+    
+    <table>
+
+        {{miFormulario.as_table}}
+
+    </table>
+
+    <input type="submit", value="Enviar">
+
+</form>   
+
+{% endblock contenido_que_cambia %}
