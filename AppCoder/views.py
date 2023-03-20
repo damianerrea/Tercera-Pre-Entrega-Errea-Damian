@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader 
-from AppCoder.models import Curso
-from AppCoder.forms import CursoFormulario 
+from AppCoder.models import Curso, Profesor, Estudiante, Entregable
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario 
 
 # Create your views here.
 def inicio(request):
@@ -19,7 +19,7 @@ def cursos(request):
         miFormulario = CursoFormulario(request.POST)
         print(miFormulario)
 
-        if miFormulario.is_valid:
+        if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
             curso = Curso(nombre= informacion['curso'], camada = informacion['camada'])
             curso.save()
@@ -30,36 +30,70 @@ def cursos(request):
     
         return render(request, "AppCoder/cursos.html",{"miFormulario": miFormulario} )
 
-    #return render(request, "AppCoder/cursos.html")
-
 def profesores(request):
-    #return HttpResponse("Vista profesores")
-    return render(request, "AppCoder/profesores.html")
+    
+    if request.method == 'POST':
+        miFormulario = ProfesorFormulario(request.POST)
+        print(miFormulario)
 
-def estudiantes(request):
-    #return HttpResponse("Vista estudiantes")
-    return render(request, "AppCoder/estudiantes.html")
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            profesores = Profesor(nombre= informacion['nombre'], apellido = informacion['apellido'], email= informacion['email'] , profesion= informacion['profesion'])
+            profesores.save()
+            return render(request, "AppCoder/index.html")
+        
+    else:
+        miFormulario = ProfesorFormulario()
+    
+        return render(request, "AppCoder/profesores.html",{"miFormulario": miFormulario} )
 
 def entregables(request):
     #return HttpResponse("Vista entregables")
-    return render(request, "AppCoder/entregables.html")
+    #return render(request, "AppCoder/entregables.html")
+    if request.method == 'POST':
+        miFormulario = EntregableFormulario(request.POST)
+        print(miFormulario)
+
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            entregables = Entregable(nombre= informacion['nombre'], fechaDeEntrega = informacion['fechaDeEntrega'], entregado= informacion['entregado'])
+            entregables.save()
+            return render(request, "AppCoder/index.html")
+            
+    else:
+        miFormulario = EntregableFormulario()
+    
+    return render(request, "AppCoder/entregables.html",{"miFormulario": miFormulario} )
 
 def base(request):
     return render(request, "AppCoder/base.html")
 
-def cursoFormulario(request):
-
+def estudiantes(request):
+    
     if request.method == 'POST':
-        miFormulario = CursoFormulario(request.POST)
+        miFormulario = EstudianteFormulario(request.POST)
         print(miFormulario)
 
-        if miFormulario.is_valid:
+        if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
-            curso = Curso(nombre= informacion['curso'], camada = informacion['camada'])
-            curso.save()
+            estudiantes = Estudiante(nombre= informacion['nombre'], apellido = informacion['apellido'], email= informacion['email'])
+            estudiantes.save()
             return render(request, "AppCoder/index.html")
         
     else:
-        miFormulario = CursoFormulario()
+        miFormulario = EstudianteFormulario()
     
-        return render(request, "AppCoder/cursoFormulario.html",{"miFormulario": miFormulario} )
+        return render(request, "AppCoder/estudiantes.html",{"miFormulario": miFormulario} )
+
+def busquedaCamada(request):
+    return render(request, "AppCoder/busquedaCamada.html")
+
+def buscar(request):
+    if request.GET.get('camada'):
+        camada= request.GET['camada']
+        cursos= Curso.objects.filter(camada__icontains=camada)
+        return render(request, "AppCoder/resultadosPorBusqueda.html", {"cursos":cursos, "camada":camada})
+    else:
+        respuesta="No enviaste datos"
+    
+    return HttpResponse(respuesta)
