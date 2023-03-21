@@ -1,14 +1,25 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}  
+
 <html lang="en">
 
 <p>Estamos buscando el: {{camada}}<p>
 {% if cursos %}
 <ul>
-{%for curso in cursos %}
-    <li> {{curso.nombre}} </li>
-    <li> {{curso.camada}} </li>
+    {%for curso in cursos %}
+        <li> {{curso.nombre}} </li>
+        <li> {{curso.camada}} </li>
 
-{% endfor%}
+    {% endfor%}
 
 </ul>
 
+{% else %}
+<p>Esa camada no existe</p>
+
 {% endif %}
+
+{% endblock contenido_que_cambia %}
