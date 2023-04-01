@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}  
+
+<br>
+<br>
+<br>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .login-form {
+        margin: 0 auto;
+        max-width: 500px;
+        margin-left: 530px;
+    }
+    .login-buttons button {
+        background-color: blue;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .create-account {
+        display: flex;
+        justify-content: center;
+    }
+
+    </style>
+</head>
+<body>
+    <form action="" method="POST" class="login-form login-buttons">
+        {% csrf_token %}
+            {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Iniciar sesión</button>
+    </form>
+<br>
+<br>
+    <div class="create-account">
+		<a href="{% url 'Register' %}">Si no tenés usuario, registrate acá</a>
+	</div>
+</body>
+</html>
+
+{% endblock contenido_que_cambia %}
+

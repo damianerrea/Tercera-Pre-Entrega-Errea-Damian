@@ -17,7 +17,20 @@
                 </div>
             </div>
         </header>
+
+<style>
+        .mensaje {
+        font-size: 24px; 
+        text-align: center; 
+        }
+            
+</style>
+            
+{% if mensaje %}
+    <div class="mensaje">{{ mensaje }}</div>
+    {% endif %}        
         
+
 {% if miFormulario.errors %}
 
     <p style= "color: red;">La carga de los datos es incorrecta, corregir por favor<p>
@@ -32,8 +45,40 @@
         
         </table>
         
-        <input type="submit", value="Enviar">
+        <input class="btn btn-primary" type="submit", value="Cargar curso">
         
-    </form>   
+    </form>
+    
+        <style>
+            .form-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 20vh;
+                float: left;
+            }
+
+            input[type=submit] {
+                background-color: blue;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        </style>
+    
+    
+        <div class="form-container">
+            <form action="/buscar/" method="GET">
+                <input type="number" name="camada" id="camada">
+                    
+                <input class="btn btn-primary" type="submit" value="Buscar cursos ingresando camada">
+            </form>
+        </div>
+
+<br>
+
 
 {% endblock contenido_que_cambia %}

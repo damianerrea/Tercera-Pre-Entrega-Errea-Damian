@@ -1,17 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader 
-from AppCoder.models import Curso, Profesor, Estudiante, Entregable
-from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario 
+from AppCoder.models import Curso, Profesor, Estudiante, Entregable, Notas
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario, UserRegisterForm, NotasFormulario 
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+
+
 
 # Create your views here.
-def inicio(request):
-    #return HttpResponse("Vista inicio")
-    return render(request, "AppCoder/inicio.html")
 
 def index(request):
     return render(request,"AppCoder/index.html")
+
+def blog(request):
+    return render(request,"AppCoder/blog.html")
 
 def cursos(request):
     
@@ -23,13 +32,14 @@ def cursos(request):
             informacion = miFormulario.cleaned_data
             curso = Curso(nombre= informacion['curso'], camada = informacion['camada'])
             curso.save()
-            return render(request, "AppCoder/index.html")
+            mensaje="Curso cargado correctamente"
+            return render(request, "AppCoder/cursos.html", {"miFormulario": CursoFormulario(), "mensaje": mensaje})
         
     else:
         miFormulario = CursoFormulario()
-    
         return render(request, "AppCoder/cursos.html",{"miFormulario": miFormulario} )
 
+@login_required
 def profesores(request):
     
     if request.method == 'POST':
@@ -85,6 +95,14 @@ def estudiantes(request):
     
         return render(request, "AppCoder/estudiantes.html",{"miFormulario": miFormulario} )
 
+def leerEstudiantes(request):
+    
+    estudiantes = Estudiante.objects.all()
+    
+    contexto = {"estudiantes": estudiantes}
+
+    return render(request, "AppCoder/leerEstudiantes.html", contexto)
+
 def busquedaCamada(request):
     return render(request, "AppCoder/busquedaCamada.html")
 
@@ -97,3 +115,97 @@ def buscar(request):
         respuesta="No enviaste datos"
     
     return HttpResponse(respuesta)
+
+def leerProfesores(request):
+    
+    profesores = Profesor.objects.all()
+    
+    contexto = {"profesores": profesores}
+
+    return render(request, "AppCoder/leerProfesores.html", contexto)
+
+class CursoList(ListView):
+    
+    model= Curso
+    template_name = "AppCoder/cursos_list.html"
+
+class CursoDetalle(DetailView):
+
+    model= Curso
+    template_name= "AppCoder/curso_detalle.html"
+
+class CursoCreacion(CreateView):
+
+    model= Curso
+    success_url= "/curso/list"
+    fields= ['nombre','camada']
+
+class CursoUpdate(UpdateView):
+    model= Curso
+    success_url= "/curso/list"
+    fields = ['nombre', 'camada']
+
+class CursoDelete(DeleteView):
+    model= Curso
+    success_url= "/curso/list"
+
+def login_request(request):
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            usuario = form.cleaned_data.get('username')
+            contrasenia = form.cleaned_data.get('password')
+            user = authenticate(username=usuario, password=contrasenia)
+
+            if user is not None:
+                login(request, user)
+                mensaje = f"Bienvenido {usuario}"
+                return render(request, "AppCoder/index.html", {"mensaje": mensaje})
+            else:
+                mensaje = "Datos incorrectos"
+                return render(request, "AppCoder/index.html", {"mensaje": mensaje})
+
+        else:
+            mensaje = "Formulario erróneo"
+            return render(request, "AppCoder/login.html", {"form": form, "mensaje": mensaje})
+
+    form = AuthenticationForm()
+    return render(request, "AppCoder/login.html", {"form": form})
+
+# Vista de registro
+def register(request):
+
+      if request.method == 'POST':
+
+            form = UserRegisterForm(request.POST)
+            if form.is_valid():
+
+                  #username = form.cleaned_data['username']
+                  form.save()
+                  return render(request,"AppCoder/index.html" ,  {"mensaje":"Usuario Creado :)"})
+
+      else:
+            form = UserRegisterForm()           
+
+      return render(request,"AppCoder/registro.html" ,  {"form":form})
+
+def notas(request):
+    
+    if request.method == 'POST':
+        miFormulario = NotasFormulario(request.POST)
+        print(miFormulario)
+
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            notas = Notas(nombre_alumno= informacion['nombre_alumno'], apellido_alumno = informacion['apellido_alumno'], fecha_entrega= informacion['fecha_entrega'] , nota= informacion['nota'])
+            notas.save()
+            mensaje= "Nota cargada correctamente"
+            return render(request, "AppCoder/notas.html", {"miFormulario": NotasFormulario(), "mensaje": mensaje})
+        
+    else:
+        miFormulario = NotasFormulario()
+    
+        return render(request, "AppCoder/notas.html",{"miFormulario": miFormulario} )
+    

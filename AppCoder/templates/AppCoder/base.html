@@ -21,11 +21,21 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
-                <a class="navbar-brand" href="{% url 'profesores' %}">Profesores</a>
-                <a class="navbar-brand" href="{% url 'cursos' %}">Cursos</a>
-                <a class="navbar-brand" href="{% url 'estudiantes' %}">Estudiantes</a>
-                <a class="navbar-brand" href="{% url 'entregables' %}">Entregables</a>
-                <a class="btn btn-primary" href="#signup">Logueate</a>
+                <a class="navbar-brand" href="{% url 'blog' %}">Blog</a>
+                <a class="navbar-brand" href="{% url 'profesores' %}">Cargar profesores</a>
+                <a class="navbar-brand" href="{% url 'cursos' %}">Cargar cursos</a>
+                <a class="navbar-brand" href="{% url 'estudiantes' %}">Cargar estudiantes</a>
+                <a class="navbar-brand" href="{% url 'notas' %}">Cargar notas</a>
+                <!--<a class="navbar-brand" href="{% url 'entregables' %}">Entregables</a>-->
+                <a class="btn btn-primary"
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'Logout' %}">Cerrar sesión</a>
+                    {% else %}
+                        href="{% url 'Login' %}">Logueate</a>
+                    {% endif %}
+                
+               
+
             </div>
         </nav>
         
@@ -60,6 +70,22 @@
         </div>
     </div>
 </section>
+
+<section>
+<style>
+    .linkplataforma {
+        font-size: 36px; 
+        text-align: center; 
+    }
+        
+</style>
+    <div class="linkplataforma">
+        <a href="https://plataforma-login.coderhouse.com/">Entrar a la plataforma de Coderhouse</a>
+    </div>
+
+</section>
+
+
 <!-- Testimonials-->
 <section class="testimonials text-center bg-light">
     <div class="container">
@@ -111,13 +137,13 @@
                     <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
+                                <a href="https://www.facebook.com/Coderhouse/?locale=es_LA"><i class="bi-facebook fs-3"></i></a>
                             </li>
                             <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-twitter fs-3"></i></a>
+                                <a href="https://twitter.com/coderhouse?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="bi-twitter fs-3"></i></a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!"><i class="bi-instagram fs-3"></i></a>
+                                <a href="https://www.instagram.com/coderhouse/?hl=es"><i class="bi-instagram fs-3"></i></a>
                             </li>
                         </ul>
                     </div>

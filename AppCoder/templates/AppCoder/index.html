@@ -4,6 +4,17 @@
 
 {% block contenido_que_cambia %}  
 <!-- Masthead-->
+<style>
+.mensaje {
+    font-size: 24px; 
+    text-align: center; 
+  }
+
+</style>
+
+{% if mensaje %}
+    <div class="mensaje">{{ mensaje }}</div>
+	{% endif %}
 <html>
         <header class="masthead">
             <div class="container position-relative">
@@ -11,7 +22,7 @@
                     <div class="col-xl-6">
                         <div class="text-center text-white">
                             <!-- Page heading-->
-                            <h1 class="mb-5">Buscá el curso ingresando la camada </h1>
+                            <h1 class="mb-5">Bienvenidos!!! <br> <br> </h1>
                             <!-- Signup form-->
                             <!-- * * * * * * * * * * * * * * *-->
                             <!-- * * SB Forms Contact Form * *-->
@@ -25,29 +36,6 @@
                     </div>
                 </div>
             </div>
-        </header>
-        
-       
-        
-        <head>
-            <title>Centrar formulario en la página</title>
-            <style>
-                .form-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 20vh;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="form-container">
-                <form action="/buscar/" method="GET">
-                    <input type="number" name="camada" id="camada">
-                        
-                    <input type="submit" value="Buscar cursos ingresando camada">
-                </form>
-            </div>
-        </body>
+        </header>       
 
 {% endblock contenido_que_cambia %}
