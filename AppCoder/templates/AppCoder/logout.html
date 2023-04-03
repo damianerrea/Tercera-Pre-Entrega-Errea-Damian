@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %} 
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,11 +12,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style>
+    .cierre {
+        font-size: 24px !important; 
+        text-align: center;
+        color: blue; 
+      }
+
+</style>
+<br>
+<br>
 <body>
-    <h1> Te has desbloqueado exitosamente </h1>
-    
+    <div class= "cierre">
+    Te has desbloqueado exitosamente
+    </div>
 </body>
 </html>
 
+{% endblock contenido_que_cambia %}
 
 

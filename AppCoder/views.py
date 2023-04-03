@@ -9,7 +9,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 
 
@@ -22,6 +22,8 @@ def index(request):
 def blog(request):
     return render(request,"AppCoder/blog.html")
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def cursos(request):
     
     if request.method == 'POST':
@@ -40,6 +42,7 @@ def cursos(request):
         return render(request, "AppCoder/cursos.html",{"miFormulario": miFormulario} )
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def profesores(request):
     
     if request.method == 'POST':
@@ -78,6 +81,8 @@ def entregables(request):
 def base(request):
     return render(request, "AppCoder/base.html")
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def estudiantes(request):
     
     if request.method == 'POST':
@@ -191,6 +196,8 @@ def register(request):
 
       return render(request,"AppCoder/registro.html" ,  {"form":form})
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def notas(request):
     
     if request.method == 'POST':
