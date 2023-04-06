@@ -1,0 +1,11 @@
+{% extends 'AppCoder/base.html' %}
+
+{% block contenido_que_cambia %}
+  <h1>Edit Post</h1>
+  
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+  </form>
+{% endblock contenido_que_cambia %}

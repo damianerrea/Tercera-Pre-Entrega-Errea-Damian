@@ -1,6 +1,10 @@
 from django.urls import path
 from AppCoder.views import *
 from django.contrib.auth.views import LogoutView
+from django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("", index, name="index"),
@@ -24,4 +28,11 @@ urlpatterns = [
     path('logout', LogoutView.as_view(template_name='AppCoder/logout.html'), name='Logout'),
     path('blog', blog, name='blog'),
     path('notas', notas, name= "notas"),
+    path('usuario/', user_posts, name='user_posts'),
+    path('crear_post/', create_post, name='crear_post'),
+    path('post/<int:pk>/', post_detail, name='post_detail'),
+    path('edit_post/', edit_post, name='edit_post'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

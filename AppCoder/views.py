@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader 
@@ -11,6 +11,9 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
+from .models import Post
+from .forms import PostForm
+from django.contrib.auth.models import User
 
 
 
@@ -215,4 +218,42 @@ def notas(request):
         miFormulario = NotasFormulario()
     
         return render(request, "AppCoder/notas.html",{"miFormulario": miFormulario} )
-    
+
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'AppCoder/create_post.html', {'form': form})
+
+@login_required
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return redirect('post_detail', pk=post.pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@login_required
+def user_posts(request):
+    user = request.user
+    posts = Post.objects.filter(author=user)
+    return render(request, 'AppCoder/user_posts.html', {'posts': posts})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'AppCoder/post_detail.html', {'post': post})

@@ -1,0 +1,28 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %} 
+<br>
+<br>
+  <h1>Posts de {{ user.username }}</h1>
+  {% for post in posts %}
+    <div class="post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}"  width="500" height="300">
+      {% endif %}
+      
+      <p> Id: {{ post.pk }}</p>
+      <p> Creado el: {{post.created_at}}
+
+    </div>
+  {% empty %}
+    <p>No se encontraron publicaciones.</p>
+  {% endfor %}
+
+  {% endblock contenido_que_cambia %}
+
+  

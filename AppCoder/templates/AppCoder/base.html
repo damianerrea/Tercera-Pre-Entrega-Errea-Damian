@@ -21,11 +21,12 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
-                <a class="navbar-brand" href="{% url 'blog' %}">Blog</a>
+                <a class="navbar-brand" href="{% url 'crear_post' %}">Nuevo post</a>
                 <a class="navbar-brand" href="{% url 'profesores' %}">Cargar profesores</a>
                 <a class="navbar-brand" href="{% url 'cursos' %}">Cargar cursos</a>
                 <a class="navbar-brand" href="{% url 'estudiantes' %}">Cargar estudiantes</a>
                 <a class="navbar-brand" href="{% url 'notas' %}">Cargar notas</a>
+                <a class="navbar-brand" href="{% url 'user_posts'%}">Mis Posts</a></li>
                 <!--<a class="navbar-brand" href="{% url 'entregables' %}">Entregables</a>-->
                 <a class="btn btn-primary"
                     {% if user.is_authenticated %}

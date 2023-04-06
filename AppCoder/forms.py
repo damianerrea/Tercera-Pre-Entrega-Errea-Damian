@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ModelForm
+from .models import Post
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
@@ -35,3 +37,8 @@ class NotasFormulario(forms.Form):
     apellido_alumno=forms.CharField(max_length=30)
     fecha_entrega = forms.DateField()
     nota = forms.DecimalField(max_digits=2, decimal_places=1)
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'image']
