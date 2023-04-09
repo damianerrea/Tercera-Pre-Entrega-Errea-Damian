@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    {% for p in estudiantes %}
+    {% for p in clientes %}
         <li>{{p}}
     {% endfor %}
 </body>
@@ -28,9 +28,9 @@
 <br>
 <br>
 
-<a href="{% url 'estudiantes' %}"> 
+<a href="{% url 'clientes' %}"> 
     
-    Agregar otro estudiante 
+    Agregar otro cliente
 </a>
 
 {% endblock contenido_que_cambia %}

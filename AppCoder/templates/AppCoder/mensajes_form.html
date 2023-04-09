@@ -2,13 +2,13 @@
 
 {% block contenido_que_cambia %}  
 
-  <h2>Edita el post</h2>
+  <h2>Enviar mensaje</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Enviar</button>
   </form>
 
-  <a href="{% url 'mi_vista' %}?next={{ request.META.HTTP_REFERER }}">Volver </a>
+  <a href="{% url 'mensaje_list' %}">Volver </a>
 
   {% endblock contenido_que_cambia %}

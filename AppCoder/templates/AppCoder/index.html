@@ -8,10 +8,12 @@
 .mensaje {
     font-size: 24px; 
     text-align: center; 
-  }
-
+}
+.masthead h1 {
+    max-width: 80%;
+    margin: 0 auto;
+}
 </style>
-
 {% if mensaje %}
     <div class="mensaje">{{ mensaje }}</div>
 	{% endif %}
@@ -19,21 +21,10 @@
         <header class="masthead">
             <div class="container position-relative">
                 <div class="row justify-content-center">
-                    <div class="col-xl-6">
                         <div class="text-center text-white">
-                            <!-- Page heading-->
-                            <h1 class="mb-5">Bienvenidos!!! <br> <br> </h1>
-                            <!-- Signup form-->
-                            <!-- * * * * * * * * * * * * * * *-->
-                            <!-- * * SB Forms Contact Form * *-->
-                            <!-- * * * * * * * * * * * * * * *-->
-                            <!-- This form is pre-integrated with SB Forms.-->
-                            <!-- To make this form functional, sign up at-->
-                            <!-- https://startbootstrap.com/solution/contact-forms-->
-                            <!-- to get an API token!-->
-                            
+                            <h1 class="mb-5" style="max-width: 90%; width: 90%;">Bienvenidos a la consultora Errea y asociados</h1>
                         </div>
-                    </div>
+                    
                 </div>
             </div>
         </header>       

@@ -6,15 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Curso Formulario</title>
-    </head>
-    <body>
+        <title>Página creada para el curso de Coderhouse</title>
 
-        <form method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Enviar" />
-        </form>
-
-    </body>
-    </html>
+<a href="{{ request.META.HTTP_REFERER }}">Volver</a>

@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Borrar curso</title>
+        <title>Borrar post</title>
     </head>
     <body>
 
         <form method="post">{% csrf_token %}
-            ¿Estás seguro que deseas borrar el curso? "{{ object }}"?
+            ¿Estás seguro que deseas borrar el post? "{{ object }}"?
             <input type="submit" value="Enviar" />
         </form>
 

@@ -6,15 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Curso detalle</title>
+        <title>Borrar mensaje</title>
     </head>
     <body>
 
-        <p>Nombre del curso: <i>{{ curso.nombre }} </i></p>
-        <p>Camada: <i> {{ curso.camada }} </i></p>
-        <p>
-            <a href="{% url 'List' %}">Regresar</a>
-        </p>
+        <form method="post">{% csrf_token %}
+            ¿Estás seguro que deseas borrar el mensaje? "{{ object }}"?
+            <input type="submit" value="Sí, eliminar" />
+        </form>
 
     </body>
     </html>

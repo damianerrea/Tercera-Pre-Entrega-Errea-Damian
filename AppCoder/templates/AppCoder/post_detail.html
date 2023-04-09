@@ -5,11 +5,10 @@
 {% block contenido_que_cambia %}
 
   <div class="Post">
-    {% if Post.image %}
-      <img src="{{ Post.image.url }}" alt="{{ Post.title }}">
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}">
     {% endif %}
-    <h2>{{ Post.title }}</h2>
-    <p class="date">Publicado en: {{ Post.created_date }}</p>
-    <p>{{ Post.content }}</p>
+    <h2>{{ post.title }}</h2>
+    <p class="date">Post publicado exitosamente el {{ post.created_at }}</p>
   </div>
 {% endblock contenido_que_cambia %}
