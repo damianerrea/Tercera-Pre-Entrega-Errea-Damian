@@ -21,7 +21,7 @@ class UserRegisterForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'resumen', 'content', 'image']
+        fields = ['title', 'resumen',  'content', 'image']
 
 class MensajeForm(forms.ModelForm):
     class Meta:
