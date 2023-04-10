@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader 
 from AppCoder.models import Cliente, Post, Mensajes
-from AppCoder.forms import ClienteFormulario , UserRegisterForm, MensajeForm
+from AppCoder.forms import ClienteFormulario , UserRegisterForm, MensajeForm, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -18,6 +18,8 @@ from django.core.paginator import Paginator
 def index(request):
     return render(request,"AppCoder/index.html")
 
+def quienes_somos(request):
+    return render(request,"AppCoder/quienes_somos.html")
 
 def base(request):
     return render(request, "AppCoder/base.html")
@@ -74,20 +76,33 @@ def login_request(request):
     return render(request, "AppCoder/login.html", {"form": form})
 
 def register(request):
-
       if request.method == 'POST':
-
             form = UserRegisterForm(request.POST)
             if form.is_valid():
-
-                  #username = form.cleaned_data['username']
                   form.save()
                   return render(request,"AppCoder/index.html" ,  {"mensaje":"Usuario Creado :)"})
-
       else:
             form = UserRegisterForm()           
-
       return render(request,"AppCoder/registro.html" ,  {"form":form})
+
+@login_required
+def editarPerfil(request):
+    usuario = request.user
+    if request.method == 'POST':
+        miFormulario = UserEditForm(request.POST)
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            usuario.email = informacion['email']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password2']
+            usuario.set_password(informacion['password1'])
+            usuario.save()
+            return render(request, "AppCoder/index.html", {"mensaje": "Datos modificados exitosamente! :)"})
+    else:
+        miFormulario = UserEditForm(initial={'email': usuario.email})
+    return render(request, "AppCoder/editar_perfil.html", {"miFormulario": miFormulario, "usuario": usuario})
+
+
 
 @login_required
 def create_post(request):
@@ -153,6 +168,7 @@ def mi_vista(request):
     next_url = request.GET.get('next', '/')
     return redirect(next_url)
 
+@login_required
 def mensaje_list(request):
     mensaje_list = Mensajes.objects.all().order_by('created_at')
     paginator = Paginator(mensaje_list, 10)

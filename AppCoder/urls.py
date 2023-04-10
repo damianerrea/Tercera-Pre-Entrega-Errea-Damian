@@ -14,6 +14,7 @@ urlpatterns = [
     path('login', login_request, name='Login'),
     path('register', register, name='Register'),
     path('logout', LogoutView.as_view(template_name='AppCoder/logout.html'), name='Logout'),
+    path('editar_perfil', editarPerfil, name='Editar_perfil' ),
     path('usuario/', user_posts, name='user_posts'),
     path('form_post/', create_post, name='form_post'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('mensajes_form', mensajes, name='mensajes_form'),
     path(r'^mensaje_borrar/(?P<pk>\d+)$', MensajesDelete.as_view(), name='Delete_mensaje'),
     path(r'^editar_mensaje/(?P<pk>\d+)$', MensajesUpdate.as_view(), name='Edit_mensaje'),
+    path('quienes_somos/', quienes_somos, name='quienes_somos'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

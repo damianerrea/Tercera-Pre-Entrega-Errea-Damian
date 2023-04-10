@@ -18,6 +18,15 @@ class UserRegisterForm(UserCreationForm):
         fields= ['username', 'email', 'password1', 'password2']
         help_texts={k:"" for k in fields}
 
+class UserEditForm(UserCreationForm):
+    email= forms.EmailField(label="Cambiar email")
+    password1=forms.CharField(label='Contraseña nueva', widget=forms.PasswordInput)
+    password2=forms.CharField(label='Repetir la contraseña nueva', widget=forms.PasswordInput)
+    class Meta:
+        model= User
+        fields= ['email', 'password1', 'password2']
+        help_texts = {k: "" for k in fields}
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
