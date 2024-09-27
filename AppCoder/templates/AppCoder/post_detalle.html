@@ -1,0 +1,29 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %} 
+
+<body>
+    <div style="margin-left: 50px;">
+<br>
+<br>
+  <h1>Post de {{ user.username }}</h1>
+      <div class="post">
+      <h2>{{ post.title }}</h2>
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}"  width="450" height="300">
+      {% endif %}
+      <p>{{ post.content }}</p>
+      <p> Id: {{ post.pk }}</p>
+      <p> Creado el: {{post.created_at}}
+    </div>
+
+    <a href="{% url 'mi_vista' %}?next={{ request.META.HTTP_REFERER }}">Volver </a>
+
+</div>
+</body>
+
+{% endblock contenido_que_cambia %}
+
+  

@@ -1,0 +1,14 @@
+{% extends 'AppCoder/base.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+
+  <div class="Post">
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    {% endif %}
+    <h2>{{ post.title }}</h2>
+    <p class="date">Post publicado exitosamente el {{ post.created_at }}</p>
+  </div>
+{% endblock contenido_que_cambia %}

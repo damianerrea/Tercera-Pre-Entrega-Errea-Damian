@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader 
-from AppCoder.models import Curso, Profesor, Estudiante, Entregable, Notas
-from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario, UserRegisterForm, NotasFormulario 
+from AppCoder.models import Cliente, Post, Mensajes
+from AppCoder.forms import ClienteFormulario , UserRegisterForm, MensajeForm, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,148 +11,44 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
-
-
-
-# Create your views here.
+from .forms import PostForm
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 def index(request):
     return render(request,"AppCoder/index.html")
 
-def blog(request):
-    return render(request,"AppCoder/blog.html")
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def cursos(request):
-    
-    if request.method == 'POST':
-        miFormulario = CursoFormulario(request.POST)
-        print(miFormulario)
-
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-            curso = Curso(nombre= informacion['curso'], camada = informacion['camada'])
-            curso.save()
-            mensaje="Curso cargado correctamente"
-            return render(request, "AppCoder/cursos.html", {"miFormulario": CursoFormulario(), "mensaje": mensaje})
-        
-    else:
-        miFormulario = CursoFormulario()
-        return render(request, "AppCoder/cursos.html",{"miFormulario": miFormulario} )
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def profesores(request):
-    
-    if request.method == 'POST':
-        miFormulario = ProfesorFormulario(request.POST)
-        print(miFormulario)
-
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-            profesores = Profesor(nombre= informacion['nombre'], apellido = informacion['apellido'], email= informacion['email'] , profesion= informacion['profesion'])
-            profesores.save()
-            return render(request, "AppCoder/index.html")
-        
-    else:
-        miFormulario = ProfesorFormulario()
-    
-        return render(request, "AppCoder/profesores.html",{"miFormulario": miFormulario} )
-
-def entregables(request):
-    #return HttpResponse("Vista entregables")
-    #return render(request, "AppCoder/entregables.html")
-    if request.method == 'POST':
-        miFormulario = EntregableFormulario(request.POST)
-        print(miFormulario)
-
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-            entregables = Entregable(nombre= informacion['nombre'], fechaDeEntrega = informacion['fechaDeEntrega'], entregado= informacion['entregado'])
-            entregables.save()
-            return render(request, "AppCoder/index.html")
-            
-    else:
-        miFormulario = EntregableFormulario()
-    
-    return render(request, "AppCoder/entregables.html",{"miFormulario": miFormulario} )
+def quienes_somos(request):
+    return render(request,"AppCoder/quienes_somos.html")
 
 def base(request):
     return render(request, "AppCoder/base.html")
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def estudiantes(request):
-    
+def clientes(request):   
     if request.method == 'POST':
-        miFormulario = EstudianteFormulario(request.POST)
+        miFormulario = ClienteFormulario(request.POST)
         print(miFormulario)
 
         if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
-            estudiantes = Estudiante(nombre= informacion['nombre'], apellido = informacion['apellido'], email= informacion['email'])
-            estudiantes.save()
-            return render(request, "AppCoder/index.html")
-        
+            clientes = Cliente(nombre= informacion['nombre'], apellido = informacion['apellido'], email= informacion['email'])
+            clientes.save()
+            mensaje = f"Cliente cargado exitosamente"
+            return render(request, "AppCoder/index.html", {"mensaje": mensaje})     
     else:
-        miFormulario = EstudianteFormulario()
+        miFormulario = ClienteFormulario()
     
-        return render(request, "AppCoder/estudiantes.html",{"miFormulario": miFormulario} )
+        return render(request, "AppCoder/clientes.html",{"miFormulario": miFormulario} )
 
-def leerEstudiantes(request):
+def leerClientes(request):
     
-    estudiantes = Estudiante.objects.all()
+    clientes = Cliente.objects.all()
     
-    contexto = {"estudiantes": estudiantes}
+    contexto = {"clientes": clientes}
 
-    return render(request, "AppCoder/leerEstudiantes.html", contexto)
-
-def busquedaCamada(request):
-    return render(request, "AppCoder/busquedaCamada.html")
-
-def buscar(request):
-    if request.GET.get('camada'):
-        camada= request.GET['camada']
-        cursos= Curso.objects.filter(camada__icontains=camada)
-        return render(request, "AppCoder/resultadosPorBusqueda.html", {"cursos":cursos, "camada":camada})
-    else:
-        respuesta="No enviaste datos"
-    
-    return HttpResponse(respuesta)
-
-def leerProfesores(request):
-    
-    profesores = Profesor.objects.all()
-    
-    contexto = {"profesores": profesores}
-
-    return render(request, "AppCoder/leerProfesores.html", contexto)
-
-class CursoList(ListView):
-    
-    model= Curso
-    template_name = "AppCoder/cursos_list.html"
-
-class CursoDetalle(DetailView):
-
-    model= Curso
-    template_name= "AppCoder/curso_detalle.html"
-
-class CursoCreacion(CreateView):
-
-    model= Curso
-    success_url= "/curso/list"
-    fields= ['nombre','camada']
-
-class CursoUpdate(UpdateView):
-    model= Curso
-    success_url= "/curso/list"
-    fields = ['nombre', 'camada']
-
-class CursoDelete(DeleteView):
-    model= Curso
-    success_url= "/curso/list"
+    return render(request, "AppCoder/leerClientes.html", contexto)
 
 def login_request(request):
 
@@ -179,40 +75,125 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request, "AppCoder/login.html", {"form": form})
 
-# Vista de registro
 def register(request):
-
       if request.method == 'POST':
-
             form = UserRegisterForm(request.POST)
             if form.is_valid():
-
-                  #username = form.cleaned_data['username']
                   form.save()
                   return render(request,"AppCoder/index.html" ,  {"mensaje":"Usuario Creado :)"})
-
       else:
             form = UserRegisterForm()           
-
       return render(request,"AppCoder/registro.html" ,  {"form":form})
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
-def notas(request):
-    
+def editarPerfil(request):
+    usuario = request.user
     if request.method == 'POST':
-        miFormulario = NotasFormulario(request.POST)
-        print(miFormulario)
-
+        miFormulario = UserEditForm(request.POST)
         if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
-            notas = Notas(nombre_alumno= informacion['nombre_alumno'], apellido_alumno = informacion['apellido_alumno'], fecha_entrega= informacion['fecha_entrega'] , nota= informacion['nota'])
-            notas.save()
-            mensaje= "Nota cargada correctamente"
-            return render(request, "AppCoder/notas.html", {"miFormulario": NotasFormulario(), "mensaje": mensaje})
-        
+            usuario.email = informacion['email']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password2']
+            usuario.set_password(informacion['password1'])
+            usuario.save()
+            return render(request, "AppCoder/index.html", {"mensaje": "Datos modificados exitosamente! :)"})
     else:
-        miFormulario = NotasFormulario()
-    
-        return render(request, "AppCoder/notas.html",{"miFormulario": miFormulario} )
-    
+        miFormulario = UserEditForm(initial={'email': usuario.email})
+    return render(request, "AppCoder/editar_perfil.html", {"miFormulario": miFormulario, "usuario": usuario})
+
+
+
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'AppCoder/create_post.html', {'form': form})
+
+@login_required
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return redirect('post_detail', pk=post.pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@login_required
+def user_posts(request):
+    user = request.user
+    posts = Post.objects.filter(author=user)
+    return render(request, 'AppCoder/user_posts.html', {'posts': posts})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'AppCoder/post_detail.html', {'post': post})
+
+class PostUpdate(UpdateView):
+    model= Post
+    success_url= "/usuario/"
+    fields = ['title', 'resumen', 'content', 'image']
+
+class PostDelete(DeleteView):
+    model= Post
+    success_url= "/usuario/"
+
+class PostDetalle(DetailView):
+
+    model= Post
+    template_name= "AppCoder/post_detalle.html"
+
+def post_list(request):
+    post_list = Post.objects.all().order_by('created_at')
+    paginator = Paginator(post_list, 10)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    return render(request, 'AppCoder/post_list.html', {'posts': posts})
+
+def mi_vista(request):
+    next_url = request.GET.get('next', '/')
+    return redirect(next_url)
+
+@login_required
+def mensaje_list(request):
+    mensaje_list = Mensajes.objects.all().order_by('created_at')
+    paginator = Paginator(mensaje_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'AppCoder/mensaje_list.html', {'mensajes': page_obj})
+
+@login_required
+def mensajes(request):
+    if request.method == 'POST':
+        form = MensajeForm(request.POST)
+        if form.is_valid():
+            mensajes = form.save(commit=False)
+            mensajes.author = request.user
+            mensajes.save()
+            return redirect('mensajes_form')
+    else:
+        form = MensajeForm()
+    return render(request, 'AppCoder/mensajes_form.html', {'form': form})
+
+class MensajesDelete(DeleteView):
+    model= Mensajes
+    success_url= "/mensaje_list/"
+
+class MensajesUpdate(UpdateView):
+    model= Mensajes
+    success_url= "/mensaje_list/"
+    fields = ['content']

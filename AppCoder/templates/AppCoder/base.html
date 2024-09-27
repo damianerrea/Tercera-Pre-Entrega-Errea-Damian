@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         {% load static %}
+        <!-- Agrega la etiqueta script para incluir el archivo JS -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -18,23 +19,26 @@
     </head>
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-light bg-light static-top">
+        <nav class="navbar" style="background-color: #e3f2fd;">
+        <!--<nav class="navbar navbar-light bg-light static-top">-->
             <div class="container">
                 <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
-                <a class="navbar-brand" href="{% url 'blog' %}">Blog</a>
-                <a class="navbar-brand" href="{% url 'profesores' %}">Cargar profesores</a>
-                <a class="navbar-brand" href="{% url 'cursos' %}">Cargar cursos</a>
-                <a class="navbar-brand" href="{% url 'estudiantes' %}">Cargar estudiantes</a>
-                <a class="navbar-brand" href="{% url 'notas' %}">Cargar notas</a>
-                <!--<a class="navbar-brand" href="{% url 'entregables' %}">Entregables</a>-->
+                <a class="navbar-brand" href="{% url 'post_list' %}">Blog económico</a>
+                <a class="navbar-brand" href="{% url 'mensaje_list' %}">Intercambiá opiniones</a>
+                <a class="navbar-brand" href="{% url 'clientes' %}">Carga de clientes</a>
+                <a class="navbar-brand" href="{% url 'user_posts'%}">Mis Posts</a></li>
                 <a class="btn btn-primary"
                     {% if user.is_authenticated %}
                         <a href="{% url 'Logout' %}">Cerrar sesión</a>
                     {% else %}
                         href="{% url 'Login' %}">Logueate</a>
                     {% endif %}
-                
-               
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-success"
+                        <a href="{% url 'Editar_perfil' %}">Editá tus datos</a>
+                    {% else %}
+                        </a>
+                    {% endif %}
 
             </div>
         </nav>
@@ -42,122 +46,34 @@
         {% block contenido_que_cambia %}
         {% endblock contenido_que_cambia %}
 
-<!-- Icons Grid-->
-<section class="features-icons bg-light text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
-                    <h3>Clases en vivo</h3>
-                    <p class="lead mb-0">Clases por Zoom, con profesores y tutores en vivo!!</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
-                    <h3>Las clases quedan guardadas</h3>
-                    <p class="lead mb-0">Podés verlas de nuevo todas las veces que quieras!</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
-                    <h3>Plataforma fácil de usar!</h3>
-                    <p class="lead mb-0">Podés acceder a las presentaciones, videos y chats!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section>
-<style>
-    .linkplataforma {
-        font-size: 36px; 
-        text-align: center; 
-    }
-        
-</style>
-    <div class="linkplataforma">
-        <a href="https://plataforma-login.coderhouse.com/">Entrar a la plataforma de Coderhouse</a>
-    </div>
-
-</section>
-
-
-<!-- Testimonials-->
-<section class="testimonials text-center bg-light">
-    <div class="container">
-        <h2 class="mb-5">Lo que opinan los alumnos de CoderHouse!!</h2>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <img class="img-fluid rounded-circle mb-3" src="{% static 'AppCoder/assets/img/testimonials-1.jpg' %}" alt="..." />
-                    <h5>Margaret E.</h5>
-                    <p class="font-weight-light mb-0">"Los cursos son excelentes"</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <img class="img-fluid rounded-circle mb-3" src="{% static 'AppCoder/assets/img/testimonials-2.jpg' %}" alt="..." />
-                    <h5>Fred S.</h5>
-                    <p class="font-weight-light mb-0">"Tienen salida laboral inmediata"</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <img class="img-fluid rounded-circle mb-3" src="{% static 'AppCoder/assets/img/testimonials-3.jpg' %}" alt="..." />
-                    <h5>Sarah W.</h5>
-                    <p class="font-weight-light mb-0">"Podés ir a tu ritmo, pero a la vez las entregas te comprometen a aprender"</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Call to Action-->
-
-        
         <!-- Footer-->
         <footer class="footer bg-light">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
                         <ul class="list-inline mb-2">
-                            <li class="list-inline-item"><a href="#!">¿Quiénes somos?</a></li>
+                            <li class="list-inline-item"><a href="quienes_somos">¿Quiénes somos?</a></li>
                             <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Contactanos</a></li>
+                            <li class="list-inline-item"><a href="mailto:damianerrea2@hotmail.com">Contactanos</a></li>
                             <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Terminos de uso</a></li>
-                            <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Política de privacidad</a></li>
                         </ul>
                         <p class="text-muted small mb-4 mb-lg-0">&copy; DamianErreaWebsite. Todos los derechos reservados.</p>
                     </div>
                     <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item me-4">
-                                <a href="https://www.facebook.com/Coderhouse/?locale=es_LA"><i class="bi-facebook fs-3"></i></a>
+                                <a href="https://www.facebook.com/damian.errea/"><i class="bi-facebook fs-3"></i></a>
                             </li>
                             <li class="list-inline-item me-4">
-                                <a href="https://twitter.com/coderhouse?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="bi-twitter fs-3"></i></a>
+                                <a href="https://twitter.com/damianerrea?lang=es"><i class="bi-twitter fs-3"></i></a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="https://www.instagram.com/coderhouse/?hl=es"><i class="bi-instagram fs-3"></i></a>
+                                <a href="https://instagram.com/damian_errea?igshid=Mzc1MmZhNjY="><i class="bi-instagram fs-3"></i></a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>

@@ -8,10 +8,12 @@
 .mensaje {
     font-size: 24px; 
     text-align: center; 
-  }
-
+}
+.masthead h1 {
+    max-width: 80%;
+    margin: 0 auto;
+}
 </style>
-
 {% if mensaje %}
     <div class="mensaje">{{ mensaje }}</div>
 	{% endif %}
@@ -19,23 +21,52 @@
         <header class="masthead">
             <div class="container position-relative">
                 <div class="row justify-content-center">
-                    <div class="col-xl-6">
                         <div class="text-center text-white">
-                            <!-- Page heading-->
-                            <h1 class="mb-5">Bienvenidos!!! <br> <br> </h1>
-                            <!-- Signup form-->
-                            <!-- * * * * * * * * * * * * * * *-->
-                            <!-- * * SB Forms Contact Form * *-->
-                            <!-- * * * * * * * * * * * * * * *-->
-                            <!-- This form is pre-integrated with SB Forms.-->
-                            <!-- To make this form functional, sign up at-->
-                            <!-- https://startbootstrap.com/solution/contact-forms-->
-                            <!-- to get an API token!-->
-                            
+                            <h1 class="mb-5" style="max-width: 90%; width: 90%;">Bienvenidos a la consultora Errea y asociados</h1>
                         </div>
-                    </div>
+                    
                 </div>
             </div>
         </header>       
+
+<!-- Icons Grid-->
+<section class="features-icons bg-light text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
+                    <h3>Charlas de economistas</h3>
+                    <p class="lead mb-0">Los mejores profesionales en vivo!!</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
+                    <h3>Información económica actualizada</h3>
+                    <p class="lead mb-0">Siendo cliente podés acceder a bases de datos</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
+                    <h3>Intercambiá mensajes con otros economistas</h3>
+                    <p class="lead mb-0">Blog económico y un foro para que nos compartas tu opinión</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+<style>
+    .linkplataforma {
+        font-size: 36px; 
+        text-align: center; 
+    }
+</style>
+    <div class="linkplataforma">
+        <a href="https://www.economia.gob.ar/datos/">Portal de datos económicos de Argentina</a>
+    </div>
+</section>
 
 {% endblock contenido_que_cambia %}

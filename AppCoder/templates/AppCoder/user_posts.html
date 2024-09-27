@@ -1,0 +1,39 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %} 
+
+<a href="{% url 'form_post' %}">
+  <button class="btn btn-primary" style="margin-left:50px;">
+    Crea un nuevo post
+  </button>
+</a>
+
+<div style="margin-left: 50px;">
+<br>
+  <h1>Posts de {{ user.username }}</h1>
+  {% for post in posts %}
+    <div class="post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.resumen }}</p>
+
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}"  width="300" height="200">
+      {% endif %}
+      
+      <p> Id: {{ post.pk }}</p>
+      <p> Creado el: {{post.created_at}}
+        <a href="{% url 'Edit_post' post.pk %}">Editar</a>
+        <a href="{% url 'Delete_post' post.pk %}">Borrar</a>
+        <a href="{% url 'Detalle' post.pk %}">Detalle</a>
+
+    </div>
+  {% empty %}
+    <p>No se encontraron publicaciones.</p>
+  {% endfor %}
+
+</div>
+  {% endblock contenido_que_cambia %}
+
+  

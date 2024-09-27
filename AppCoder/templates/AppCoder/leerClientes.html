@@ -1,0 +1,36 @@
+{% extends "AppCoder/base.html" %}
+
+{% load static %}
+
+{% block contenido_que_cambia %} 
+
+<br>
+
+<html lang="en">
+<head>
+    <meta chartset = "UTF-8">
+    <meta http-equiv="X-UA-Compatible" content= "IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    {% for p in clientes %}
+        <li>{{p}}
+    {% endfor %}
+</body>
+
+</style>
+
+<html/>
+
+<br>
+<br>
+
+<a href="{% url 'clientes' %}"> 
+    
+    Agregar otro cliente
+</a>
+
+{% endblock contenido_que_cambia %}

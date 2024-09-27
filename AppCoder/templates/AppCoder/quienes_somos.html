@@ -1,0 +1,38 @@
+{% extends 'AppCoder/base.html' %}
+{% load static %}
+
+{% block contenido_que_cambia %}
+
+<style>
+.contenedor {
+    margin-left: 50px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.contenedor img {
+    width: 200px;
+}
+</style>
+
+<div class='contenedor'>
+    <h1> ¿Qué es Errea y asociados? </h1>
+  
+    <p>Es una consultora (ficticia) que se especializa en análisis macroeconómico de Argentina y el mundo. El economista jefe es Damián Errea</p>
+    <p> Damian es economista egresado de la Universidad Nacional de Mar del Plata y cuenta con una Maestría en economía de la UBA </p> 
+    <p> Trabaja desde 2015 en el Banco Central de la República Argentina y es profesor de Dinero crédito y bancos en la Facultad de Cs. Económicas de Mar del plata </p>
+    <p> La idea de esta página es que puedan escribir y leer artículos sobre economía en el blog, además de compartir opiniones en la sección de mensajería </p>
+    <p> Si quieren ser clientes de Errea y asociados o enviar cualquier consulta, pueden contactarnos vía mail, twitter, instagram y facebook </p>
+    <img src="{% static 'AppCoder/assets/img/damianerrea.jpg' %}">
+    <h2>Último seminario de economía dictado por Damián Errea en el BCRA</h2>
+    <p>¡Mira el video, dale like y compartilo!</p>
+    <br><br>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/w066K4CcT04" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+</div>
+
+{% endblock contenido_que_cambia%}

@@ -1,0 +1,14 @@
+{% extends 'AppCoder/base.html' %}
+
+{% block contenido_que_cambia %}  
+
+  <h2>Enviar mensaje</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+  </form>
+
+  <a href="{% url 'mensaje_list' %}">Volver </a>
+
+  {% endblock contenido_que_cambia %}
